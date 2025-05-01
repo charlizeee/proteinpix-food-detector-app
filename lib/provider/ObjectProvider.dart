@@ -28,12 +28,6 @@ class ObjectProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> clearPhotos() async {
-    _detectedPhotos.clear();
-    await savePhotosToFile(_detectedPhotos);
-    notifyListeners();
-  }
-
   Future<void> removePhoto(int index) async {
     final removed = _detectedPhotos.removeAt(index);
 
@@ -44,6 +38,12 @@ class ObjectProvider with ChangeNotifier {
     }
 
     //update json containing save data in files
+    await savePhotosToFile(_detectedPhotos);
+    notifyListeners();
+  }
+  
+  Future<void> clearPhotos() async {
+    _detectedPhotos.clear();
     await savePhotosToFile(_detectedPhotos);
     notifyListeners();
   }

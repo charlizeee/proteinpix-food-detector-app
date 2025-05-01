@@ -7,6 +7,8 @@ import '../utils/text.dart';
 import 'package:provider/provider.dart';
 import '../provider/ObjectProvider.dart';
 import '../model/DetectedPhoto.dart';
+import '../services/zipPhotos.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -240,11 +242,28 @@ class _HomePageState extends State<HomePage> {
             appText("Protein", Colors.white, "Pix", Color(0xFFffdc85)),
             Spacer(),
             IconButton(
-              onPressed: (){
-                if(allDetections.isEmpty){
+              // onPressed: (){
+              //   if(allDetections.isEmpty){
+              //     Fluttertoast.showToast(msg: "No detections to download.");
+              //   }
+              // }, 
+              onPressed: () async {
+                if (allDetections.isEmpty) {
                   Fluttertoast.showToast(msg: "No detections to download.");
+                  return;
                 }
-              }, 
+                try {
+                  EasyLoading.show(status: "Saving detection...");
+                  final zipPath = await zipDetectedPhotos(allDetections);
+                  EasyLoading.showSuccess('Success! Saved in downloads folder.');
+                  print("Zipped file location: $zipPath");
+                  
+                } catch (e) {
+                  Fluttertoast.showToast(msg: "Failed to zip images.");
+                  print("Error while zipping: $e");
+                }
+              },
+
               icon: Icon(Icons.download, color: Colors.white, )
             ), 
           ],

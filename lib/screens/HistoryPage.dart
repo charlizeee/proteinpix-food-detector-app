@@ -118,7 +118,7 @@ class HistoryPage extends StatelessWidget {
                               ),
                               onPressed: () {
                                 Fluttertoast.showToast(msg: "Confirmed");
-                                Navigator.pop(context);
+                                Navigator.pop(context, true);
                               },
                               child: Text("Delete")
                             ),
