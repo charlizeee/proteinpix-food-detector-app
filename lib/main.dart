@@ -12,20 +12,15 @@ import '../provider/ObjectProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  final objectProvider = ObjectProvider();
-  // await objectProvider.loadPhotos(); 
-
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => objectProvider),
+        ChangeNotifierProvider(create: (_) => ObjectProvider()),
       ],
       child: const MyApp(),
     ),
   );
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

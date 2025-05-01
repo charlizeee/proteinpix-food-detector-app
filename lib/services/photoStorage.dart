@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import '../model/DetectedPhoto.dart';
+import 'package:path/path.dart' as path;
 
 Future<File> _getFile() async {
   final dir = await getApplicationDocumentsDirectory();
@@ -32,6 +33,13 @@ Future<void> deleteDetectedPhotosFile() async {
     print("File does not exist.");
   }
 }
+
+// Future<String> saveImagePermanently(File imageFile) async {
+//   final dir = await getApplicationDocumentsDirectory();
+//   final newPath = '${dir.path}/${path.basename(imageFile.path)}';
+//   final newImage = await imageFile.copy(newPath);
+//   return newImage.path;
+// }
 
 void printFileContents() async {
   final file = await _getFile();

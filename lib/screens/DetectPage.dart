@@ -11,6 +11,8 @@ import '../provider/ObjectProvider.dart';
 import '../model/DetectedPhoto.dart';
 import '../utils/ClassData.dart';
 import '../utils/PolygonPainter.dart';
+import '../services/photoStorage.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DetectPage extends StatefulWidget {
   final String imagePath;
@@ -450,7 +452,8 @@ class _DetectPageState extends State<DetectPage> {
                   Uint8List pngBytes = byteData.buffer.asUint8List();
 
                   // new file path
-                  final directory = await Directory.systemTemp.createTemp(); 
+                  // final directory = await Directory.systemTemp.createTemp(); 
+                  final directory = await getApplicationDocumentsDirectory();
                   final String newPath = '${directory.path}/detection_${DateTime.now().millisecondsSinceEpoch}.png';
                   final File newImageFile = File(newPath);
 
