@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../model/DetectedPhoto.dart';
 import '../services/photoStorage.dart';
@@ -34,6 +36,14 @@ class ObjectProvider with ChangeNotifier {
 
   Future<void> removePhoto(int index) async {
     final removed = _detectedPhotos.removeAt(index);
+
+    //delete photo
+    final imageFile = File(removed.imagePath);
+    if (await imageFile.exists()) {
+      await imageFile.delete();
+    }
+
+    //update json containing save data in files
     await savePhotosToFile(_detectedPhotos);
     notifyListeners();
   }

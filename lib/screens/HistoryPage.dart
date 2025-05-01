@@ -5,6 +5,7 @@ import '../provider/ObjectProvider.dart';
 import '../model/DetectedPhoto.dart';
 import '../utils/text.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
@@ -100,7 +101,37 @@ class HistoryPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Icon(Icons.chevron_right, color: text,),
+                  IconButton(
+                    icon: Icon(Icons.delete, color: text),
+                    onPressed: () async {
+                      final confirm = await showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: Text("Delete Entry"),
+                          content: Text("Are you sure you want to delete this detection?"),
+                          actions: [
+                            TextButton(onPressed: () => Navigator.pop(context, false), child: Text("Cancel", style: TextStyle(color: Color(0xFF21564a)),)),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF21564a), 
+                                foregroundColor: Colors.white, 
+                              ),
+                              onPressed: () {
+                                Fluttertoast.showToast(msg: "Confirmed");
+                                Navigator.pop(context);
+                              },
+                              child: Text("Delete")
+                            ),
+                          ],
+                        ),
+                      );
+
+                      if (confirm == true) {
+                        Provider.of<ObjectProvider>(context, listen: false).removePhoto(index);
+                      }
+                    },
+                  ),
+
                 ],
               ),
             ),

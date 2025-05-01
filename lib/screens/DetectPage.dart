@@ -381,9 +381,13 @@ class _DetectPageState extends State<DetectPage> {
                                     onPressed: () {
                                       Navigator.of(ctx).pop(); 
                                     },
-                                    child: const Text('No'),
+                                    child: Text('No',style: TextStyle(color: secondColor)),
                                   ),
                                   ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xFF21564a), 
+                                      foregroundColor: Colors.white, 
+                                    ),
                                     onPressed: () {
                                       Fluttertoast.showToast(msg: "Confirmed");
                                       setState(() {
