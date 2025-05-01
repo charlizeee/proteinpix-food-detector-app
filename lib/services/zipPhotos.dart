@@ -7,7 +7,7 @@ Future<String> zipDetectedPhotos(List<DetectedPhoto> photos) async {
   final archive = Archive();
 
   for (var photo in photos) {
-    final file = File(photo.imagePath);
+    final file = File(photo.imagePathOrig);
     if (await file.exists()) {
       final fileName = p.basename(file.path);
       final bytes = await file.readAsBytes();

@@ -241,12 +241,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             appText("Protein", Colors.white, "Pix", Color(0xFFffdc85)),
             Spacer(),
-            IconButton(
-              // onPressed: (){
-              //   if(allDetections.isEmpty){
-              //     Fluttertoast.showToast(msg: "No detections to download.");
-              //   }
-              // }, 
+            IconButton( 
               onPressed: () async {
                 if (allDetections.isEmpty) {
                   Fluttertoast.showToast(msg: "No detections to download.");

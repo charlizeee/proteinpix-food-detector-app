@@ -468,6 +468,7 @@ class _DetectPageState extends State<DetectPage> {
                   // Save the detection
                   final detectedPhoto = DetectedPhoto(
                     newPath, 
+                    widget.imagePath,  
                     results, 
                     timestamp,
                     imageHeight.toDouble(), 
