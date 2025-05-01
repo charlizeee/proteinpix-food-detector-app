@@ -11,7 +11,6 @@ import '../provider/ObjectProvider.dart';
 import '../model/DetectedPhoto.dart';
 import '../utils/ClassData.dart';
 import '../utils/PolygonPainter.dart';
-import '../services/photoStorage.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DetectPage extends StatefulWidget {
@@ -31,11 +30,12 @@ class _DetectPageState extends State<DetectPage> {
   int imageHeight = 1;
   int imageWidth = 1;
   bool isDetecting = true;
-  Color myPrimaryColor = Color(0xFF90b79e);
   bool confirmed = false;
   final GlobalKey _renderKey = GlobalKey();
   int? selectedPolygonIndex;
   Color whenTapped = Color(0xFFffdc85);
+  Color myPrimaryColor = Color(0xFF90b79e);
+  Color secondColor = Color(0xFF21564a);
 
   Map<String, String> foodCategoryImages = {
     'Fruits/Vegetables': 'Fruits_Vegetables',
@@ -128,7 +128,7 @@ class _DetectPageState extends State<DetectPage> {
 
       final isSelected = selectedPolygonIndex == results.indexOf(result);
       Color color = isSelected 
-          ? whenTapped
+          ? whenTapped.withOpacity(0.2)
           : foodClassMetadata[tag]!.color.withOpacity(0.5);
 
       return Positioned(
@@ -273,16 +273,16 @@ class _DetectPageState extends State<DetectPage> {
                       Container(
                         width: 80,
                         height: 80,
-                        decoration: BoxDecoration(color: const Color(0xFF90b79e), shape: BoxShape.circle,),
+                        decoration: BoxDecoration(color: myPrimaryColor, shape: BoxShape.circle,),
                         alignment: Alignment.center,
                         child: Text(totalProtein.toStringAsFixed(1),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 26),
+                          style: TextStyle(
+                              color: secondColor, fontSize: 26, fontWeight: FontWeight.w600),
                         ),
                       ),
 
                       const SizedBox(height: 4),
-                      const Text("Total Protein Content",style: TextStyle(color: Colors.black54, fontSize: 10)),
+                      const Text("Total Protein Content",style: TextStyle(color: Colors.black54, fontSize: 12)),
                       const SizedBox(height: 10),
 
                       // Show list of detected items
@@ -315,15 +315,15 @@ class _DetectPageState extends State<DetectPage> {
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                               color: isSelected
                                     ? whenTapped // selected color
-                                    : info.color.withOpacity(0.5),  // orig
+                                    : info.color.withOpacity(0.65),  // orig
                               child: ListTile(
                                 leading: CircleAvatar(
                                   // backgroundImage: AssetImage(info.imagePath),
                                   backgroundImage: AssetImage('assets/images/category/${foodCategoryImages[info.category] ?? 'default_image'}.png'),
                                 ),
-                                title: Text(info.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                                title: Text(info.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
                                 subtitle: Text("${info.protein.toStringAsFixed(1)} g",
-                                style: TextStyle(fontSize: 12)),
+                                  style: TextStyle(fontSize: 12, color: Colors.white60)),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -362,7 +362,7 @@ class _DetectPageState extends State<DetectPage> {
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF90b79e),
+                            backgroundColor: secondColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -398,7 +398,7 @@ class _DetectPageState extends State<DetectPage> {
                             );
                           },
                           child: const Text("Confirm Detections",
-                              style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),),
+                              style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500),),
                         ),
                       ),
                       ),
@@ -477,7 +477,7 @@ class _DetectPageState extends State<DetectPage> {
                 });
               },
 
-              icon: Icon(Icons.save_alt_rounded),
+              icon: Icon(Icons.save_alt_rounded, color: secondColor,),
             ),
           ),
         ],

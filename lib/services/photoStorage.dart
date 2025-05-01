@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import '../model/DetectedPhoto.dart';
-import 'package:path/path.dart' as path;
 
 Future<File> _getFile() async {
   final dir = await getApplicationDocumentsDirectory();

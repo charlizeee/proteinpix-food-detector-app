@@ -30,12 +30,12 @@ class _ClassListState extends State<ClassList> {
     return Scaffold(
       appBar: AppBar(
         title: RichText(text: buildTextSpan("Food Classes", Colors.white)),
-        backgroundColor: const Color(0xFF90b79e),
+        backgroundColor: const Color(0xFF21564a),
         automaticallyImplyLeading: true,
       ),
       body: Column(
         children: [
-          // Search Bar
+          //search here
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
@@ -69,7 +69,7 @@ class _ClassListState extends State<ClassList> {
               ),
               child: Column(
                 children: [
-                  // Categories Row (Scrollable and Synchronized)
+                  // categories
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                     child: SizedBox(
@@ -103,7 +103,7 @@ class _ClassListState extends State<ClassList> {
                     ),
                   ),
 
-                  // Swipable Pages (PageView)
+                  // swipable pages 
                   Expanded(
                     child: PageView.builder(
                       controller: _pageController,
@@ -155,10 +155,10 @@ class _ClassListState extends State<ClassList> {
     );
   }
 
-  // Scroll to the selected category
+  // Scroll to the category
   void _scrollToCategory(int index) {
-    final itemWidth = 100.0; // Approximate width of each category item
-    final offset = index * (itemWidth + 12); // 12 is the separator width between categories
+    final itemWidth = 100.0; 
+    final offset = index * (itemWidth + 12); 
     _scrollController.animateTo(
       offset,
       duration: Duration(milliseconds: 300),

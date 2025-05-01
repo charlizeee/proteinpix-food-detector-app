@@ -9,8 +9,7 @@ class ObjectProvider with ChangeNotifier {
   }
 
   List<DetectedPhoto> _detectedPhotos = [];
-
-
+  
   List<DetectedPhoto> get detectedPhotos => _detectedPhotos;
   List<DetectedPhoto> get recentDetections =>
       _detectedPhotos.reversed.take(4).toList();

@@ -30,6 +30,9 @@ class DetailedView extends StatelessWidget {
       'Sugary Drinks': 'Sugary_Drinks',
     };
 
+    Color myPrimaryColor = Color(0xFF90b79e);
+    Color secondColor = Color(0xFF21564a);
+
     return DraggableScrollableSheet(
       initialChildSize: initialFraction,
       minChildSize: initialFraction,
@@ -63,20 +66,17 @@ class DetailedView extends StatelessWidget {
                       Container(
                         width: 80,
                         height: 80,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF90b79e),
-                          shape: BoxShape.circle,
-                        ),
+                        decoration: BoxDecoration(color: myPrimaryColor,shape: BoxShape.circle,),
                         alignment: Alignment.center,
                         child: Text(
                           totalProtein.toStringAsFixed(1),
-                          style: const TextStyle(color: Colors.white, fontSize: 26),
+                          style: TextStyle(color: secondColor, fontSize: 26, fontWeight: FontWeight.w600),
                         ),
                       ),
                       const SizedBox(height: 4),
                       const Text(
                         "Total Protein Content",
-                        style: TextStyle(color: Colors.black54, fontSize: 10),
+                        style: TextStyle(color: Colors.black54, fontSize: 12),
                       ),
                       const SizedBox(height: 10),
 
@@ -90,15 +90,15 @@ class DetailedView extends StatelessWidget {
                           return Card(
                             margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                            color: food.color.withOpacity(0.5), // original color
+                            color: food.color.withOpacity(0.65), // original color
                             child: ListTile(
                               contentPadding: const EdgeInsets.only(left: 24, right: 36, bottom: 2, top: 2),
                               leading: CircleAvatar(
                                 backgroundImage: AssetImage('assets/images/category/${foodCategoryImages[food.category] ?? 'default_image'}.png'),
                               ),
-                              subtitle: Text(food.category),
-                              trailing: Text("${food.protein.toStringAsFixed(1)} g", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),),
-                              title: Text(food.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),),
+                              subtitle: Text(food.category, style: TextStyle(color: Colors.white60),),
+                              trailing: Text("${food.protein.toStringAsFixed(1)} g", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white60),),
+                              title: Text(food.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),),
                             ),
                           );
                         },

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../provider/ObjectProvider.dart';
 import '../model/DetectedPhoto.dart';
 import '../utils/text.dart';
+import 'package:intl/intl.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
@@ -37,7 +38,7 @@ class HistoryPage extends StatelessWidget {
         title: RichText(
           text: buildTextSpan("History", Colors.white),
         ),
-        backgroundColor: Color(0xFF90b79e),
+        backgroundColor: Color(0xFF21564a),
       ),
       body: detectedPhotos.isEmpty
         ? showNohistory(screen)
@@ -46,7 +47,10 @@ class HistoryPage extends StatelessWidget {
   }
 
   Widget showSavedDetections(List<DetectedPhoto> detectedPhotos) {
+    Color cardColor = Color(0xFF90b79e);
+    Color text = Colors.black;
     return ListView.builder(
+      padding: EdgeInsets.only(top: 8),
       itemCount: detectedPhotos.length,
       itemBuilder: (context, index) {
         DetectedPhoto photo = detectedPhotos[index];
@@ -55,6 +59,7 @@ class HistoryPage extends StatelessWidget {
             Navigator.pushNamed(context, '/detail', arguments: {'photoResults': photo});
           },
           child: Card(
+            color: cardColor,
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             elevation: 2,
             shape: RoundedRectangleBorder(
@@ -63,7 +68,7 @@ class HistoryPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center, // <-- center all vertically
+                crossAxisAlignment: CrossAxisAlignment.center, 
                 children: [
                   Container(
                     width: 50,
@@ -84,18 +89,18 @@ class HistoryPage extends StatelessWidget {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center, // <- ensures vertical centering
+                      mainAxisAlignment: MainAxisAlignment.center, 
                       children: [
                         Text(
-                          "Detected on ${photo.timestamp.toLocal().toString().split(' ')[0]}",
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                          "Detected on ${DateFormat('MMMM d').format(photo.timestamp.toLocal())}",
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: text),
                         ),
                         const SizedBox(height: 2),
-                        Text("${photo.results.length} object(s) detected"),
+                        Text("${photo.results.length} object(s) detected", style: TextStyle(color: text.withOpacity(0.5)),),
                       ],
                     ),
                   ),
-                  const Icon(Icons.chevron_right),
+                  Icon(Icons.chevron_right, color: text,),
                 ],
               ),
             ),
