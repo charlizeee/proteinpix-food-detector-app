@@ -118,7 +118,8 @@ flutter:
     - assets/models/float16.tflite
     - assets/labels/labels.txt
 
-# flutter pub run flutter_launcher_icons:main
+# flutter pub run flutter_launcher_icons
+# dart run flutter_launcher_icons
 flutter_launcher_icons:
   android: true
   ios: true

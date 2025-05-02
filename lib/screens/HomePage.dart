@@ -236,7 +236,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: myPrimaryColor,
+        backgroundColor: secondColor,
         title: Row(
           children: [
             appText("Protein", Colors.white, "Pix", Color(0xFFffdc85)),

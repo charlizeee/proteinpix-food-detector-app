@@ -423,11 +423,11 @@ class _DetectPageState extends State<DetectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: myPrimaryColor,
+        backgroundColor: secondColor,
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton (
+            padding: const EdgeInsets.only(right: 8.0,),
+            child: TextButton(
               onPressed: () async {
                 if (results.isEmpty) {
                   Fluttertoast.showToast(msg: "No detection to save.");
@@ -444,7 +444,6 @@ class _DetectPageState extends State<DetectPage> {
                   RenderRepaintBoundary boundary =
                       _renderKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
 
-                  // Capture image
                   var image = await boundary.toImage(pixelRatio: 3.0);
                   ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
 
@@ -455,34 +454,39 @@ class _DetectPageState extends State<DetectPage> {
 
                   Uint8List pngBytes = byteData.buffer.asUint8List();
 
-                  // new file path
-                  // final directory = await Directory.systemTemp.createTemp(); 
                   final directory = await getApplicationDocumentsDirectory();
                   final String newPath = '${directory.path}/detection_${DateTime.now().millisecondsSinceEpoch}.png';
                   final File newImageFile = File(newPath);
-
                   await newImageFile.writeAsBytes(pngBytes);
 
                   final timestamp = DateTime.now();
-
-                  // Save the detection
                   final detectedPhoto = DetectedPhoto(
-                    newPath, 
-                    widget.imagePath,  
-                    results, 
+                    newPath,
+                    widget.imagePath,
+                    results,
                     timestamp,
-                    imageHeight.toDouble(), 
-                    imageWidth.toDouble(),  
-                    totalProtein,           
-                    );
+                    imageHeight.toDouble(),
+                    imageWidth.toDouble(),
+                    totalProtein,
+                  );
+
+                  if (!mounted) return;
                   Provider.of<ObjectProvider>(context, listen: false).addDetectedPhoto(detectedPhoto);
-                  
-                  EasyLoading.showSuccess('Success!');
-                  Navigator.pop(context);
+
+                  if (!mounted) return;
+                  EasyLoading.showSuccess('Success!').then((_) {
+                    if (mounted) Navigator.pop(context);
+                  });
                 });
               },
-
-              icon: Icon(Icons.save_alt_rounded, color: secondColor,),
+              child: Text(
+                'Save',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         ],

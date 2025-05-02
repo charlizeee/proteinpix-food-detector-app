@@ -123,7 +123,7 @@ class DetailedView extends StatelessWidget {
         title: RichText(
           text: buildTextSpan("Detailed View", Colors.white),
         ),
-        backgroundColor: const Color(0xFF90b79e),
+        backgroundColor: const Color(0xFF21564a),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
