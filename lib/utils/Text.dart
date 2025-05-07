@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
   
-TextSpan buildTextSpan(String text, Color color) {
-  double fontSize = 24; 
+TextSpan buildTextSpan(String text, Color color, double sizeFont) {
+  // double fontSize = 24; 
   return TextSpan(
     text: text,
     style: TextStyle(
       color: color,
       fontWeight: FontWeight.bold,
-      fontSize: fontSize,
+      fontSize: sizeFont,
       shadows: [
         Shadow(
           offset: Offset(2.0, 2.0),

@@ -13,7 +13,7 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _controller = PageController();
   bool isLastPage = false;
-  Color myPrimaryColor = Color(0xFF609478);
+  Color myPrimaryColor = Color(0xFF21564a);
 
   Future<void> completeOnboarding() async {
     final prefs = await SharedPreferences.getInstance();

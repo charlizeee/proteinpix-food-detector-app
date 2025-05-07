@@ -37,7 +37,7 @@ class HistoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: RichText(
-          text: buildTextSpan("History", Colors.white),
+          text: buildTextSpan("History", Colors.white, 20),
         ),
         backgroundColor: Color(0xFF21564a),
       ),

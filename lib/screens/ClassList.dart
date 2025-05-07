@@ -29,7 +29,7 @@ class _ClassListState extends State<ClassList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: RichText(text: buildTextSpan("Food Classes", Colors.white)),
+        title: RichText(text: buildTextSpan("Food Classes", Colors.white, 20)),
         backgroundColor: const Color(0xFF21564a),
         automaticallyImplyLeading: true,
       ),

@@ -121,7 +121,7 @@ class DetailedView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: RichText(
-          text: buildTextSpan("Detailed View", Colors.white),
+          text: buildTextSpan("Detailed View", Colors.white, 16),
         ),
         backgroundColor: const Color(0xFF21564a),
       ),

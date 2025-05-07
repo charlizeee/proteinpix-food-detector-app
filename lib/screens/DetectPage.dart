@@ -74,6 +74,7 @@ class _DetectPageState extends State<DetectPage> {
   Future<void> runSegmentation() async {
 
     print("Running YOLOv8 Segmentation...");
+    EasyLoading.show(status: "Detecting...");
 
     Uint8List bytes = await imageFile.readAsBytes();
     final decodedImage = await decodeImageFromList(bytes);
@@ -92,8 +93,8 @@ class _DetectPageState extends State<DetectPage> {
       imageHeight: imageHeight,
       imageWidth: imageWidth,
       iouThreshold: 0.4,
-      confThreshold: 0.4,
-      classThreshold: 0.4,
+      confThreshold: 0.5,
+      classThreshold: 0.5,
     );
 
     for (var result in output) {
@@ -104,6 +105,8 @@ class _DetectPageState extends State<DetectPage> {
 
     print("Detection completed. Found ${output.length} objects.");
     print("Results: $output");
+    
+    EasyLoading.dismiss();
 
     if (output.isEmpty) {
       Fluttertoast.showToast(msg: "No objects detected.");
@@ -171,28 +174,29 @@ class _DetectPageState extends State<DetectPage> {
             height: screenSize.width * 0.75,
           ),
           const SizedBox(height: 20),
-          const Text(
-            "Detecting food...",
-            style: TextStyle(fontSize: 16, color: Colors.grey),
-          ),
+          // const Text(
+          //   "Detecting food...",
+          //   style: TextStyle(fontSize: 16, color: Colors.grey),
+          // ),
         ],
       ),
     );
   }
 
-  Widget showImageWithButton(){
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.file(
-            imageFile,
-            fit: BoxFit.fill,
-          ),
-        ],
+  Widget showImageWithButton() {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: Colors.white,
+      child: Image.file(
+        imageFile,
+        fit: BoxFit.contain,
+        width: double.infinity,
+        height: double.infinity,
       ),
     );
   }
+
 
   // compute for total protein content
   double get totalProtein => results.fold<double>(
@@ -342,6 +346,12 @@ class _DetectPageState extends State<DetectPage> {
                                                 results.removeAt(index);
                                               });
                                               Fluttertoast.showToast(msg: "Detection removed");
+
+                                              if (results.isEmpty) {
+                                                Future.microtask(() {
+                                                  Navigator.of(context).pop();
+                                                });
+                                              }
                                             },
                                     ),
                                   ],

@@ -40,8 +40,8 @@ class _HomePageState extends State<HomePage> {
     return RichText(
       text: TextSpan(
         children: [
-          buildTextSpan(text1, color1),
-          buildTextSpan(text2, color2),
+          buildTextSpan(text1, color1, 24),
+          buildTextSpan(text2, color2, 24),
         ],
       ),
     );
