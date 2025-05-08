@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../provider/ObjectProvider.dart';
 import '../model/DetectedPhoto.dart';
 import '../services/zipPhotos.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+// import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -226,10 +226,71 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget showInfo(){
+    double iconSize = 34;
+    double spaceIcon = 24;
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text("How it works"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.upload, color: secondColor, size: iconSize),
+                    SizedBox(width: spaceIcon),
+                    Expanded(child: Text("Tap the upload button to choose a photo from your gallery.")),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Icon(Icons.camera_alt_rounded, color: secondColor, size: iconSize),
+                    SizedBox(width: spaceIcon),
+                    Expanded(child: Text("Tap the camera icon to take a new photo and start detection.")),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Icon(Icons.share, color: secondColor, size: iconSize),
+                    SizedBox(width: spaceIcon),
+                    Expanded(child: Text("Use the share button to contribute your images and help improve the detection model.")),
+                  ],
+                ),
+              ],
+            ),
+            actionsPadding: EdgeInsets.only(right: 30, bottom: 24),
+            actions: [
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Text(
+                  "Got it",
+                  style: TextStyle(
+                    color: secondColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16, 
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+        );
+      },
+      child: Icon(Icons.info, color: Colors.white, size: 22),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final recentDetections = Provider.of<ObjectProvider>(context).recentDetections;
     final allDetections = Provider.of<ObjectProvider>(context).detectedPhotos;
+    print("This is the detections: ${allDetections.length}");
     final screen = MediaQuery.of(context).size;
     screenWidth = screen.width;
     screenHeight = screen.height;
@@ -238,29 +299,31 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: secondColor,
         title: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             appText("Protein", Colors.white, "Pix", Color(0xFFffdc85)),
+            SizedBox(width: 6,),
+            showInfo(),
+
+
+
             Spacer(),
             IconButton( 
               onPressed: () async {
                 if (allDetections.isEmpty) {
-                  Fluttertoast.showToast(msg: "No detections to download.");
+                  Fluttertoast.showToast(msg: "No detections to share.");
                   return;
                 }
                 try {
-                  EasyLoading.show(status: "Saving detection...");
-                  final zipPath = await zipDetectedPhotos(allDetections);
-                  EasyLoading.showSuccess('Success! Saved in downloads folder.');
-                  print("Zipped file location: $zipPath");
-                  
+                  await zipAndShare(allDetections); 
                 } catch (e) {
-                  Fluttertoast.showToast(msg: "Failed to zip images.");
-                  print("Error while zipping: $e");
+                  Fluttertoast.showToast(msg: "Failed to zip or share images.");
+                  print("Error: $e");
                 }
               },
+              icon: Icon(Icons.share, color: Colors.white),
+            ),
 
-              icon: Icon(Icons.download, color: Colors.white, )
-            ), 
           ],
         ),
       ),
@@ -269,7 +332,6 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // quickAccessText("Quick Access"),
             SizedBox(height: 30,),
             classesCard(),
             Padding(

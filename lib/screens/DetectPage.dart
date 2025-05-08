@@ -37,6 +37,8 @@ class _DetectPageState extends State<DetectPage> {
   Color myPrimaryColor = Color(0xFF90b79e);
   Color secondColor = Color(0xFF21564a);
 
+  // end to end latency
+
   Map<String, String> foodCategoryImages = {
     'Fruits/Vegetables': 'Fruits_Vegetables',
     'Meats': 'Meats',
@@ -86,7 +88,10 @@ class _DetectPageState extends State<DetectPage> {
       return;
     }
 
-    print("Image size: $imageWidth x $imageHeight");
+    final DateTime inferenceStart = DateTime.now();
+    final DateTime endToEndStart = DateTime.now();
+
+    // print("Image size: $imageWidth x $imageHeight");
 
     final output = await vision.yoloOnImage(
       bytesList: bytes,
@@ -97,14 +102,18 @@ class _DetectPageState extends State<DetectPage> {
       classThreshold: 0.5,
     );
 
-    for (var result in output) {
-      print("Tag: ${result["tag"]} (${result["tag"].runtimeType})");
-      print("Box: ${result["box"]} (${result["box"].runtimeType})");
-      print("Polygons: ${result["polygons"]} (${result["polygons"].runtimeType})");
-    }
+     final DateTime inferenceEnd = DateTime.now();
+     final inferenceLatency = inferenceEnd.difference(inferenceStart).inMilliseconds;
+     print(">>> Inference Latency: ${inferenceLatency}ms");
 
-    print("Detection completed. Found ${output.length} objects.");
-    print("Results: $output");
+    // for (var result in output) {
+    //   print("Tag: ${result["tag"]} (${result["tag"].runtimeType})");
+    //   print("Box: ${result["box"]} (${result["box"].runtimeType})");
+    //   print("Polygons: ${result["polygons"]} (${result["polygons"].runtimeType})");
+    // }
+
+    // print("Detection completed. Found ${output.length} objects.");
+    // print("Results: $output");
     
     EasyLoading.dismiss();
 
@@ -118,6 +127,13 @@ class _DetectPageState extends State<DetectPage> {
       setState(() {
         results = output;
         hasDetected = true;
+      });
+
+      // call when ui is built so the end latency can be subtracted
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final DateTime endToEndEnd = DateTime.now();
+        final endToEndLatency = endToEndEnd.difference(endToEndStart).inMilliseconds;
+        print(">>> End-to-End Latency: ${endToEndLatency}ms");
       });
     }
   }
