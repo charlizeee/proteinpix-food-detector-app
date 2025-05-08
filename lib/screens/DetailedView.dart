@@ -15,13 +15,10 @@ class DetailedView extends StatelessWidget {
 
   Widget showResults(double initialFraction) {
     final maxSize = initialFraction < 0.5 ? 0.5 : initialFraction;
-    double totalProtein = 0;
     List<FoodClassInfo> foods = photoResults.results
         .map((e) => foodClassMetadata[e['tag']]!)
         .whereType<FoodClassInfo>()
         .toList();
-
-    totalProtein = foods.fold(0, (sum, item) => sum + item.protein);
 
     Map<String, String> foodCategoryImages = {
       'Fruits/Vegetables': 'Fruits_Vegetables',
@@ -30,7 +27,6 @@ class DetailedView extends StatelessWidget {
       'Sugary Drinks': 'Sugary_Drinks',
     };
 
-    Color myPrimaryColor = Color(0xFF90b79e);
     Color secondColor = Color(0xFF21564a);
 
     return DraggableScrollableSheet(
@@ -62,23 +58,34 @@ class DetailedView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   child: Column(
                     children: [
-                      // Total protein circle
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(color: myPrimaryColor,shape: BoxShape.circle,),
-                        alignment: Alignment.center,
-                        child: Text(
-                          totalProtein.toStringAsFixed(1),
-                          style: TextStyle(color: secondColor, fontSize: 26, fontWeight: FontWeight.w600),
+                      SizedBox(width: 8,),
+
+                      IntrinsicWidth(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: secondColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.local_fire_department, color: Colors.white, size: 22),
+                              const SizedBox(width: 6),
+                              Text(
+                                "Total Protein: ${photoResults.totalProtein}g",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        "Total Protein Content",
-                        style: TextStyle(color: Colors.black54, fontSize: 12),
-                      ),
-                      const SizedBox(height: 10),
+
+                      SizedBox(height: 8,),
 
                       //list of food
                       ListView.builder(

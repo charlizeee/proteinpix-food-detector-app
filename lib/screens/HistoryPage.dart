@@ -6,11 +6,12 @@ import '../model/DetectedPhoto.dart';
 import '../utils/text.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../utils/ClassData.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
 
-  Widget showNohistory(Size screen){
+  Widget showNohistory(Size screen) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -23,7 +24,7 @@ class HistoryPage extends StatelessWidget {
           Text(
             "No images saved yet.",
             style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 134, 133, 133)),
-            textAlign: TextAlign.center
+            textAlign: TextAlign.center,
           )
         ],
       ),
@@ -42,8 +43,8 @@ class HistoryPage extends StatelessWidget {
         backgroundColor: Color(0xFF21564a),
       ),
       body: detectedPhotos.isEmpty
-        ? showNohistory(screen)
-        : showSavedDetections(detectedPhotos.reversed.toList()),
+          ? showNohistory(screen)
+          : showSavedDetections(detectedPhotos.reversed.toList()),
     );
   }
 
@@ -67,13 +68,13 @@ class HistoryPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.only(right: 10, bottom: 12, top: 12, left: 12),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center, 
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    width: 50,
-                    height: 50,
+                    width: 60, 
+                    height: 60, 
                     decoration: BoxDecoration(
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(8),
@@ -90,19 +91,42 @@ class HistoryPage extends StatelessWidget {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center, 
                       children: [
+                        
                         Text(
-                          "Detected on ${DateFormat('MMMM d').format(photo.timestamp.toLocal())}",
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: text),
+                          "${DateFormat('MMMM d, yyyy').format(photo.timestamp.toLocal())}, ${DateFormat('h:mm a').format(photo.timestamp.toLocal())}",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: text.withOpacity(0.8),
+                            fontWeight: FontWeight.w500
+                          ),
                         ),
-                        const SizedBox(height: 2),
-                        Text("${photo.results.length} object(s) detected", style: TextStyle(color: text.withOpacity(0.5)),),
+
+                        const SizedBox(height: 3),
+
+                        Text(
+                          "Protein: ${photo.totalProtein}g",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: text.withOpacity(0.5),
+                          ),
+                        ),
+                        Text(
+                          "Detections: ${photo.results.length} classes",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: text.withOpacity(0.5),
+                          ),
+                        ),
                       ],
                     ),
                   ),
+
+
+
+
                   IconButton(
-                    icon: Icon(Icons.delete, color: text),
+                    icon: Icon(Icons.delete, color:text.withOpacity(0.8),),
                     onPressed: () async {
                       final confirm = await showDialog(
                         context: context,
@@ -110,17 +134,20 @@ class HistoryPage extends StatelessWidget {
                           title: Text("Delete Entry"),
                           content: Text("Are you sure you want to delete this detection?"),
                           actions: [
-                            TextButton(onPressed: () => Navigator.pop(context, false), child: Text("Cancel", style: TextStyle(color: Color(0xFF21564a)),)),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: Text("Cancel", style: TextStyle(color: Color(0xFF21564a))),
+                            ),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF21564a), 
-                                foregroundColor: Colors.white, 
+                                backgroundColor: Color(0xFF21564a),
+                                foregroundColor: Colors.white,
                               ),
                               onPressed: () {
                                 Fluttertoast.showToast(msg: "Confirmed");
                                 Navigator.pop(context, true);
                               },
-                              child: Text("Delete")
+                              child: Text("Delete"),
                             ),
                           ],
                         ),
@@ -131,13 +158,12 @@ class HistoryPage extends StatelessWidget {
                       }
                     },
                   ),
-
                 ],
               ),
             ),
           ),
         );
-      }
+      },
     );
   }
 }

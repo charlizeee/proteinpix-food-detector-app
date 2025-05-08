@@ -36,6 +36,7 @@ class _DetectPageState extends State<DetectPage> {
   Color whenTapped = Color(0xFFffdc85);
   Color myPrimaryColor = Color(0xFF90b79e);
   Color secondColor = Color(0xFF21564a);
+  final timestamp = DateTime.now();
 
   // end to end latency
 
@@ -190,10 +191,6 @@ class _DetectPageState extends State<DetectPage> {
             height: screenSize.width * 0.75,
           ),
           const SizedBox(height: 20),
-          // const Text(
-          //   "Detecting food...",
-          //   style: TextStyle(fontSize: 16, color: Colors.grey),
-          // ),
         ],
       ),
     );
@@ -285,25 +282,38 @@ class _DetectPageState extends State<DetectPage> {
               Expanded(
                 child: SingleChildScrollView(
                   controller: sc,
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                   child: Column(
                     children: [
 
-                      // Total protein circle
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(color: myPrimaryColor, shape: BoxShape.circle,),
-                        alignment: Alignment.center,
-                        child: Text(totalProtein.toStringAsFixed(1),
-                          style: TextStyle(
-                              color: secondColor, fontSize: 26, fontWeight: FontWeight.w600),
+                      SizedBox(width: 8,),
+
+                      IntrinsicWidth(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: secondColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.local_fire_department, color: Colors.white, size: 22),
+                              const SizedBox(width: 6),
+                              Text(
+                                "Total Protein: ${totalProtein.toStringAsFixed(1)}g",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
 
-                      const SizedBox(height: 4),
-                      const Text("Total Protein Content",style: TextStyle(color: Colors.black54, fontSize: 12)),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 8,),
 
                       // Show list of detected items
                       ListView.builder(
@@ -485,7 +495,7 @@ class _DetectPageState extends State<DetectPage> {
                   final File newImageFile = File(newPath);
                   await newImageFile.writeAsBytes(pngBytes);
 
-                  final timestamp = DateTime.now();
+                  
                   final detectedPhoto = DetectedPhoto(
                     newPath,
                     widget.imagePath,
