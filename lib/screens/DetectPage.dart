@@ -99,8 +99,8 @@ class _DetectPageState extends State<DetectPage> {
       imageHeight: imageHeight,
       imageWidth: imageWidth,
       iouThreshold: 0.4,
-      confThreshold: 0.5,
-      classThreshold: 0.5,
+      confThreshold: 0.582,
+      classThreshold: 0.582,
     );
 
      final DateTime inferenceEnd = DateTime.now();
@@ -123,6 +123,12 @@ class _DetectPageState extends State<DetectPage> {
       setState(() {
         isDetecting = false;
       });
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final DateTime endToEndEnd = DateTime.now();
+          final endToEndLatency = endToEndEnd.difference(endToEndStart).inMilliseconds;
+          print(">>> End-to-End Latency (no detection): ${endToEndLatency}ms");
+        });
     } else {
       EasyLoading.showSuccess('Success! Found ${output.length} food item(s).');
       setState(() {

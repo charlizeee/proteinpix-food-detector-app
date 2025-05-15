@@ -305,24 +305,22 @@ class _HomePageState extends State<HomePage> {
             SizedBox(width: 6,),
             showInfo(),
 
-
-
-            Spacer(),
-            IconButton( 
-              onPressed: () async {
-                if (allDetections.isEmpty) {
-                  Fluttertoast.showToast(msg: "No detections to share.");
-                  return;
-                }
-                try {
-                  await zipAndShare(allDetections); 
-                } catch (e) {
-                  Fluttertoast.showToast(msg: "Failed to zip or share images.");
-                  print("Error: $e");
-                }
-              },
-              icon: Icon(Icons.share, color: Colors.white),
-            ),
+            // Spacer(),
+            // IconButton( 
+            //   onPressed: () async {
+            //     if (allDetections.isEmpty) {
+            //       Fluttertoast.showToast(msg: "No detections to share.");
+            //       return;
+            //     }
+            //     try {
+            //       await zipAndShare(allDetections); 
+            //     } catch (e) {
+            //       Fluttertoast.showToast(msg: "Failed to zip or share images.");
+            //       print("Error: $e");
+            //     }
+            //   },
+            //   icon: Icon(Icons.share, color: Colors.white),
+            // ),
 
           ],
         ),
