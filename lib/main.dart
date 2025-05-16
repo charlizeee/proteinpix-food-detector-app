@@ -6,6 +6,7 @@ import 'screens/HistoryPage.dart';
 import 'screens/DetailedView.dart';
 import 'screens/ClassList.dart';
 import 'screens/OnboardingScreen.dart';
+import 'screens/StepGuideScreen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import '../provider/ObjectProvider.dart';
@@ -61,6 +62,9 @@ class MyApp extends StatelessWidget {
               );
             } else if (settings.name == '/foodClasses'){
               return MaterialPageRoute(builder: (context) => ClassList());
+            } 
+            else if (settings.name == '/stepGuide'){
+              return MaterialPageRoute(builder: (context) => StepGuideScreen());
             } 
             else if (settings.name == '/detect') {
               final args = settings.arguments as Map<String, dynamic>;

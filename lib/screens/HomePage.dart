@@ -226,63 +226,70 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget showInfo(){
-    double iconSize = 34;
-    double spaceIcon = 24;
-    return GestureDetector(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: Text("How it works"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+ Widget showInfo() {
+  return GestureDetector(
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text("About ProteinPix"),
+          content: RichText(
+            textAlign: TextAlign.justify,
+            text: TextSpan(
+              style: TextStyle(color: Colors.black, fontSize: 14), // Ensure default style
               children: [
-                Row(
-                  children: [
-                    Icon(Icons.upload, color: secondColor, size: iconSize),
-                    SizedBox(width: spaceIcon),
-                    Expanded(child: Text("Tap the upload button to choose a photo from your gallery.")),
-                  ],
+                TextSpan(
+                  text:
+                      "ProteinPix is a mobile application designed for Filipinos who want to make informed dietary choices. Using AI-powered image analysis, it automatically estimates the protein content of traditional Filipino dishes with no manual input required. Simply take or upload a photo of your ",
                 ),
-                SizedBox(height: 12),
-                Row(
-                  children: [
-                    Icon(Icons.camera_alt_rounded, color: secondColor, size: iconSize),
-                    SizedBox(width: spaceIcon),
-                    Expanded(child: Text("Tap the camera icon to take a new photo and start detection.")),
-                  ],
+                TextSpan(
+                  text: "single-serving meals",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 12),
-                Row(
-                  children: [
-                    Icon(Icons.share, color: secondColor, size: iconSize),
-                    SizedBox(width: spaceIcon),
-                    Expanded(child: Text("Use the share button to contribute your images and help improve the detection model.")),
-                  ],
+                TextSpan(
+                  text:
+                      ", and the app will identify food items and assess their protein content. Nutritional data is based on expert-curated values from a ",
+                ),
+                TextSpan(
+                  text: "licensed nutritionist",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text:
+                      ", ensuring accuracy and cultural relevance. ProteinPix aims to empower users with accessible and reliable nutritional insights.",
                 ),
               ],
             ),
-            actionsPadding: EdgeInsets.only(right: 30, bottom: 24),
-            actions: [
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Text(
-                  "Got it",
-                  style: TextStyle(
-                    color: secondColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16, 
-                  ),
+          ),
+          actionsPadding: EdgeInsets.only(right: 30, bottom: 24),
+          actions: [
+            GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Text(
+                "Got it",
+                style: TextStyle(
+                  color: secondColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
+            ),
+          ],
+        ),
+      );
+    },
+    child: Icon(Icons.info, color: Colors.white, size: 22),
+  );
+}
 
-            ],
-          ),
-        );
+
+
+  Widget showSteps() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/stepGuide');
       },
-      child: Icon(Icons.info, color: Colors.white, size: 22),
+      child: Icon(Icons.fact_check, color: Colors.white, size: 22),
     );
   }
 
@@ -305,7 +312,8 @@ class _HomePageState extends State<HomePage> {
             SizedBox(width: 6,),
             showInfo(),
 
-            // Spacer(),
+            Spacer(),
+            showSteps(),
             // IconButton( 
             //   onPressed: () async {
             //     if (allDetections.isEmpty) {
