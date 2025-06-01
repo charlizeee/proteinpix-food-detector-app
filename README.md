@@ -17,9 +17,7 @@ ProteinPix is a **mobile application** built with Flutter that uses a custom-tra
 ## Technology Stack
 
 - **Flutter:** Mobile app development framework  
-- **PyTorch:** Model training and fine-tuning  
-- **YOLOv11:** Custom semantic segmentation model architecture  
-- **TensorFlow Lite:** Model conversion and on-device inference  
+- **YOLO:** Model training
 - **CVAT:** Data annotation and labeling tool  
 - **Python:** Data preprocessing and model pipeline scripts  
 
